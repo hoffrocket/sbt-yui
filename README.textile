@@ -1,0 +1,9 @@
+h2. Summary
+Yui Compressor Plugin for "simple-build-tool":http://code.google.com/p/simple-build-tool/
+
+h2. Usage
+Mix in to your project definition:
+<pre><code>
+  class MyWebProject(info: ProjectInfo) extends DefaultWebProject(info) with YuiCompressorPlugin ...
+</code></pre>
+
