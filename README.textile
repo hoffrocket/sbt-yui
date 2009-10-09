@@ -10,8 +10,16 @@ http://github.com/davidB/yuicompressor-maven-plugin
 
 h2. Usage
 
+Soon to be hosted on a repo, but until then, you can download this source. Install sbt and run:
+
+<pre>sbt publish-local</pre>
+
+Check out the "Use the Plugin" section of the "SbtPlugins Howto":http://code.google.com/p/simple-build-tool/wiki/SbtPlugins
+
+instead of <pre> val a = ... </pre>  do <pre> val yuiCompressor = "hoffrocket" %% "sbt-yui" %% "0.1"</pre>
+
 Mix in to your project definition:
 <pre><code>
-  class MyWebProject(info: ProjectInfo) extends DefaultWebProject(info) with YuiCompressorPlugin ...
+  class MyWebProject(info: ProjectInfo) extends DefaultWebProject(info) with hoffrocket.YuiCompressorPlugin ...
 </code></pre>
 
