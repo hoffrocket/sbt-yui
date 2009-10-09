@@ -1,8 +1,9 @@
-h2. Summary
+h2. Yui Compressor Plugin for SBT
 
-Yui Compressor Plugin for "simple-build-tool":http://code.google.com/p/simple-build-tool/
+"simple-build-tool":http://code.google.com/p/simple-build-tool/ plugin to minify CSS and JS files in a web project using
+Yahoo's Yui Compressor
 
-sbt is the scala based build tool with smart continuous compilation and a dsl syntax
+SBT is the scala based build tool with smart continuous compilation and a dsl syntax
 
 This plugin was heavily influenced by David Bernard's Yui compressor plugin for maven:
 "davidB/yuicompressor-maven-plugin":http://github.com/davidB/yuicompressor-maven-plugin
@@ -10,7 +11,7 @@ This plugin was heavily influenced by David Bernard's Yui compressor plugin for 
 
 h2. Usage
 
-Soon to be hosted on a repo, but until then, you can download this source. Install sbt and run:
+Soon to be hosted on a repo, but until then, you can download this source and:
 
 <pre>sbt publish-local</pre>
 
