@@ -2,6 +2,12 @@ h2. Summary
 
 Yui Compressor Plugin for "simple-build-tool":http://code.google.com/p/simple-build-tool/
 
+sbt is the scala based build tool with smart continuous compilation and a dsl syntax
+
+This plugin was heavily influenced by David Bernard's Yui compressor plugin for maven:
+http://github.com/davidB/yuicompressor-maven-plugin
+
+
 h2. Usage
 
 Mix in to your project definition:
