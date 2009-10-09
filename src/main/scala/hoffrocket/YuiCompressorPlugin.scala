@@ -13,8 +13,6 @@ import org.mozilla.javascript.EvaluatorException
 
 trait YuiCompressorPlugin extends DefaultWebProject{
   
-  private val logger = new ConsoleLogger
-  
   def yuiSourceFilter = "*.css" | "*.js"
   def yuiSources = descendents(webappPath, yuiSourceFilter)
   def yuiTemp = outputPath / "yui-temp"
@@ -27,7 +25,9 @@ trait YuiCompressorPlugin extends DefaultWebProject{
   
   def yuiProducts:Iterable[Path] = for (path <- yuiSources.get) yield Path.fromFile(yuiTemp.toString + path.toString.substring(webappPath.toString.length))
   
-  lazy val yuicompressor = fileTask(yuiProducts from yuiSources) {
+  lazy val yuicompressor = yuicompressorAction 
+  
+  def yuicompressorAction = fileTask(yuiProducts from yuiSources) {
     val errorReporter = new YuiErrorReporter()
     for(file <- yuiSources.get){
         val inFile = new File(file.toString)
@@ -38,7 +38,7 @@ trait YuiCompressorPlugin extends DefaultWebProject{
 
         if (!outFile.exists || outFile.lastModified <  inFile.lastModified){
             
-            logger.info("Compressing: " + fileName)
+            log.info("Compressing: " + fileName)
             val extension = fileName.substring(fileName.lastIndexOf("."))
             
             if (!outFile.getParentFile.exists && !outFile.getParentFile.mkdirs) {
@@ -54,9 +54,7 @@ trait YuiCompressorPlugin extends DefaultWebProject{
                     val compressor = new CssCompressor(in)
                     compressor.compress(out, 0)
                 }
-            } catch {
-             case e=> println("caught exception: " + e.getMessage)   
-            }finally {
+            } finally {
                 out.close
                 in.close
             }
@@ -67,11 +65,11 @@ trait YuiCompressorPlugin extends DefaultWebProject{
   } describedAs("Minify JS and CSS files with yui compressor") 
   
   class YuiErrorReporter extends ErrorReporter {
-        def log(level:Level.Value, message:String, sourceName:String, line:Int, lineSource:String, lineOffset:Int) = 
-            logger.log(level, "%s in %s:%d,%d at %s".format(message, sourceName,line,lineOffset, lineSource))
+        def logit(level:Level.Value, message:String, sourceName:String, line:Int, lineSource:String, lineOffset:Int) = 
+            log.log(level, "%s in %s:%d,%d at %s".format(message, sourceName,line,lineOffset, lineSource))
             
         def error(message:String, sourceName:String, line:Int, lineSource:String, lineOffset:Int) {
-            log(Level.Error, message, sourceName, line,lineSource,lineOffset)
+            logit(Level.Error, message, sourceName, line,lineSource,lineOffset)
         }
 
         def runtimeError(message:String, sourceName:String, line:Int, lineSource:String, lineOffset:Int):EvaluatorException = {
@@ -80,7 +78,7 @@ trait YuiCompressorPlugin extends DefaultWebProject{
         }
 
         def warning(message:String, sourceName:String, line:Int, lineSource:String, lineOffset:Int) {
-            log(Level.Warn, message, sourceName, line,lineSource,lineOffset)
+            logit(Level.Warn, message, sourceName, line,lineSource,lineOffset)
         }
       
   }
