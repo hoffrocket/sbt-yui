@@ -11,13 +11,9 @@ This plugin was heavily influenced by David Bernard's Yui compressor plugin for 
 
 h2. Usage
 
-Soon to be hosted on a repo, but until then, you can download this source and:
-
-<pre>sbt publish-local</pre>
-
 Check out the "Use the Plugin" section of the "SbtPlugins Howto":http://code.google.com/p/simple-build-tool/wiki/SbtPlugins
 
-instead of <pre> val a = ... </pre>  do <pre> val yuiCompressor = "hoffrocket" %% "sbt-yui" %% "0.1"</pre>
+instead of <pre> val a = ... </pre>  do <pre> val sbtYui = "hoffrocket" %% "sbt-yui" %% "0.1"</pre>
 
 Mix in to your project definition:
 <pre><code>
