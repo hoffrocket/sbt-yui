@@ -22,6 +22,7 @@ trait YuiCompressorPlugin extends DefaultWebProject{
   def yuiJswarn = false
   def yuiPreserveAllSemiColons = false
   def yuiDisableOptimizations = false
+  def lineBreaks = -1
   
   def yuiProducts:Iterable[Path] = for (path <- yuiSources.get) yield Path.fromFile(yuiTemp.toString + path.toString.substring(webappPath.toString.length))
   
@@ -32,33 +33,36 @@ trait YuiCompressorPlugin extends DefaultWebProject{
     for(file <- yuiSources.get){
         val inFile = new File(file.toString)
         val in = new InputStreamReader(new FileInputStream(inFile), yuiEncoding)
-        val fileName = file.toString.substring(webappPath.toString.length)
+		try {
+	        val fileName = file.toString.substring(webappPath.toString.length)
 
-        val outFile = new File( yuiTemp.toString + fileName)
+	        val outFile = new File( yuiTemp.toString + fileName)
 
-        if (!outFile.exists || outFile.lastModified <  inFile.lastModified){
+	        if (!outFile.exists || outFile.lastModified <  inFile.lastModified){
             
-            log.info("Compressing: " + fileName)
-            val extension = fileName.substring(fileName.lastIndexOf("."))
+	            log.info("Compressing: " + fileName)
+	            val extension = fileName.substring(fileName.lastIndexOf("."))
             
-            if (!outFile.getParentFile.exists && !outFile.getParentFile.mkdirs) {
-                throw new Exception( "Cannot create resource output directory: " + outFile.getParentFile() )
-            }
-            val out = new OutputStreamWriter(new FileOutputStream(outFile), yuiEncoding)
-            try {
-                if (".js".equalsIgnoreCase(extension)) {
-                    val compressor = new JavaScriptCompressor(in, errorReporter)
+	            if (!outFile.getParentFile.exists && !outFile.getParentFile.mkdirs) {
+	                throw new Exception( "Cannot create resource output directory: " + outFile.getParentFile() )
+	            }
+	            val out = new OutputStreamWriter(new FileOutputStream(outFile), yuiEncoding)
+	            try {
+	                if (".js".equalsIgnoreCase(extension)) {
+	                    val compressor = new JavaScriptCompressor(in, errorReporter)
 
-                    compressor.compress(out, 0, !yuiNomunge, yuiJswarn, yuiPreserveAllSemiColons, yuiDisableOptimizations)
-                } else if (".css".equalsIgnoreCase(extension)) {
-                    val compressor = new CssCompressor(in)
-                    compressor.compress(out, 0)
-                }
-            } finally {
-                out.close
-                in.close
-            }
-        }
+	                    compressor.compress(out, lineBreaks, !yuiNomunge, yuiJswarn, yuiPreserveAllSemiColons, yuiDisableOptimizations)
+	                } else if (".css".equalsIgnoreCase(extension)) {
+	                    val compressor = new CssCompressor(in)
+	                    compressor.compress(out, lineBreaks)
+	                }
+	            } finally {
+	                out.close
+	            }
+	        }
+		} finally {
+			in.close
+		}
         
     }
     None

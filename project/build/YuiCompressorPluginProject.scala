@@ -1,7 +1,8 @@
 import sbt._
 class YuiCompressorPluginProject(info: ProjectInfo) extends PluginProject(info) {
-    val yuiCompressor = "com.yahoo.platform.yui" % "yuicompressor" % "2.3.6"
-    val rhino = "rhino" % "js" % "1.6R7"
+    val yuiCompressor = "net.alchim31.3rd.com.yahoo.platform.yui" % "yuicompressor" % "2.4.2" % "compile->default"
+	
+	val sonaTypeReo = "Sonatype Repo" at "http://oss.sonatype.org/content/groups/github/"
 	
 	override def managedStyle = ManagedStyle.Maven
 	val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
