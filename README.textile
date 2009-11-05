@@ -13,7 +13,13 @@ h2. Usage
 
 Check out the "Use the Plugin" section of the "SbtPlugins Howto":http://code.google.com/p/simple-build-tool/wiki/SbtPlugins
 
-instead of <pre> val a = ... </pre>  do <pre> val sbtYui = "hoffrocket" %% "sbt-yui" %% "0.1"</pre>
+In your Plugins.scala:
+
+instead of <pre> val a = ... </pre>  do <pre> val sbtYui = "hoffrocket" %% "sbt-yui" %% "0.2"</pre>
+
+and add _(piggybacking off of the maven yui compressor repo for yuicompressor-2.4.2.jar)_:
+
+<pre>val sonaTypeReo = "Sonatype Repo" at "http://oss.sonatype.org/content/groups/github/"</pre>
 
 Mix in to your project definition:
 <pre><code>
